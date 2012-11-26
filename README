@@ -1,1 +1,4 @@
 Allows to get easily your preferred license for your sources.
+Help:    `license -h`
+List:    `license`
+Example: `license gnu_gpl -d bin/burocracy -c your@mail.ext -l ruby -n You -s 2`
