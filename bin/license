@@ -1,0 +1,55 @@
+#--
+# This file is part of License.
+#
+# Copyright(C) 2012 Giovanni Capuano <webmaster@giovannicapuano.net>
+#
+# License is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# License is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with License.  If not, see <http://www.gnu.org/licenses/>.
+#++
+#!/usr/bin/env ruby
+require 'optparse'
+require 'license'
+
+options = {}
+
+OptionParser.new do |o|
+  options[:directory]   = 'burocracy'
+  options[:language]    = ?c
+  options[:license]     = ARGV[0]
+  options[:spaces]      = 2
+  options[:year]        = Time.new.year
+  
+  o.on '-c', '--contact CONTACT', 'your e-mail address or website' do |contact|
+    options[:contact]   = contact
+  end
+  
+  o.on '-d', '--directory DIRECTORY', 'folder that contains licenses' do |directory|
+    options[:directory] = directory
+  end
+  
+  o.on '-l', '--language LANGUAGE', 'target language' do |language|
+    options[:language]  = language
+  end
+  
+  o.on '-n', '--name NAME', 'your name' do |name|
+    options[:name]      = name
+  end
+  
+  o.on '-s', '--spaces SPACES', 'target language' do |spaces|
+    options[:spaces]    = spaces.to_i
+  end
+end.parse!
+
+abort 'Available languages: ' + License.get_list(options[:directory]).map { |f| f = f.split(?.).first }.join(', ') if ARGV.empty?
+
+puts License.get options
